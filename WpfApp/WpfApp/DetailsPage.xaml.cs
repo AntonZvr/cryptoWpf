@@ -16,23 +16,13 @@ using System.Windows.Shapes;
 namespace WpfApp
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for DetailsPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class DetailsPage : Page
     {
-        public MainWindow()
+        public DetailsPage()
         {
             InitializeComponent();
-        }
-
-        private void ButtonClick2(object sender, RoutedEventArgs e)
-        {
-            Main.Content = new DetailsPage();
-        }
-
-        private void ButtonClick1(object sender, RoutedEventArgs e)
-        {
-            Main.Content = new HomePage();
         }
     }
 }

@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="TabBarView" Height="650" Width="800">
     <Grid>
-
+        <StackPanel Orientation="Horizontal" Height="35" VerticalAlignment="Top">
+            <Button Content="Main Page" Click="ButtonClick1"></Button>
+            <Button Content="Details Page" Click="ButtonClick2"></Button>
+            
+        </StackPanel>
+        <Frame x:Name="Main" Margin="0,30,0,0" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

@@ -12,27 +12,28 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp.Services;
+using WpfApp.ViewModels;
 
 namespace WpfApp
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for HomePage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class HomePage : Page
     {
-        public MainWindow()
+        private TopCurrenciesViewModel _viewModel;
+
+        public HomePage()
         {
             InitializeComponent();
+            _viewModel = new TopCurrenciesViewModel(new CryptoApiService());
+            DataContext = _viewModel;
         }
 
-        private void ButtonClick2(object sender, RoutedEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            Main.Content = new DetailsPage();
-        }
-
-        private void ButtonClick1(object sender, RoutedEventArgs e)
-        {
-            Main.Content = new HomePage();
+            await _viewModel.LoadDataAsync();
         }
     }
 }
