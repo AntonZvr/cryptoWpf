@@ -17,7 +17,8 @@ namespace WpfApp.ViewModels
 {
     public class TopCurrenciesViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<CryptoCoin> _coins;
+        private ObservableCollection<CryptoCoin> _allCoins;
+        private ObservableCollection<CryptoCoin> _displayedCoins;
         private readonly ICryptoApiService _cryptoService;
 
         private int _numberOfCoins = 10; // Default value
@@ -31,27 +32,56 @@ namespace WpfApp.ViewModels
             }
         }
 
+        public ObservableCollection<CryptoCoin> DisplayedCoins
+        {
+            get => _displayedCoins;
+            set
+            {
+                _displayedCoins = value;
+                OnPropertyChanged(nameof(DisplayedCoins));
+            }
+        }
+
+        private string _searchQuery;
+        public string SearchQuery
+        {
+            get => _searchQuery;
+            set
+            {
+                _searchQuery = value;
+                OnPropertyChanged(nameof(SearchQuery));
+            }
+        }
+
         public ICommand UpdateCommand { get; }
         public ICommand NavigateToDetailCommand { get; }
+        public ICommand SearchCommand { get; }
 
         public TopCurrenciesViewModel(ICryptoApiService cryptoService)
         {
             _cryptoService = cryptoService;
 
             UpdateCommand = new RelayCommand(_ => LoadDataAsync());
-            NavigateToDetailCommand = new RelayCommand(async coin => await NavigateToDetail((CryptoCoin)coin));
+            NavigateToDetailCommand = new RelayCommand(async coin => NavigateToDetail((CryptoCoin)coin));
+            SearchCommand = new RelayCommand(_ => Search());
         }
 
-        public async Task NavigateToDetail(CryptoCoin coin)
+        public Task Search()
         {
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            var detailPage = new DetailsPage(coin);
-            mainWindow.MainFrame.NavigationService.Navigate(detailPage);
-        }
+            if (string.IsNullOrEmpty(SearchQuery))
+            {
+                DisplayedCoins = new ObservableCollection<CryptoCoin>(_allCoins);
+            }
+            else
+            {
+                DisplayedCoins = new ObservableCollection<CryptoCoin>(_allCoins.Where(c => c.Name.Contains(SearchQuery) || c.Symbol.Contains(SearchQuery)));
+            }
 
+            return Task.CompletedTask;
+        }
 
         public async Task LoadDataAsync()
-            {
+        {
             if (NumberOfCoins > 100)
             {
                 MessageBox.Show("Can't display more than 100 currencies");
@@ -59,29 +89,16 @@ namespace WpfApp.ViewModels
             }
 
             var coins = await _cryptoService.GetTopCoinsAsync(NumberOfCoins);
-            foreach (var coin in coins)
-            {
-                if (Decimal.TryParse(coin.PriceUsd, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal coinPriceDecimal))
-                {
-                    coin.PriceUsd = coinPriceDecimal.ToString("0.0000$");
-                }
-                else
-                {
-                    Console.WriteLine($"Failed to parse coin price for coin: {coin.Name}");
-                }
-            }
-            Coins = new ObservableCollection<CryptoCoin>(coins);
-            Console.WriteLine(Coins.Count);
+            _cryptoService.FormatCoinPrice(coins);
+            _allCoins = new ObservableCollection<CryptoCoin>(coins);
+            DisplayedCoins = new ObservableCollection<CryptoCoin>(_allCoins);
         }
 
-        public ObservableCollection<CryptoCoin> Coins
+        public void NavigateToDetail(CryptoCoin coin)
         {
-            get => _coins;
-            set
-            {
-                _coins = value;
-                OnPropertyChanged(nameof(Coins));
-            }
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            var detailPage = new DetailsPage(coin);
+            mainWindow.MainFrame.NavigationService.Navigate(detailPage);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

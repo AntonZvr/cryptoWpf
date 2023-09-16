@@ -9,6 +9,7 @@ namespace WpfApp.ServicesInterfaces
 {
     public interface ICryptoApiService
     {
+        void FormatCoinPrice(List<CryptoCoin> coins);
         Task<List<CryptoCoin>> GetTopCoinsAsync(int count);
     }
 }

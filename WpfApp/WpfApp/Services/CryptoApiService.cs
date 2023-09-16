@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -30,6 +31,21 @@ namespace WpfApp.Services
                 return data.Data;
             }
             return null; 
+        }
+
+        public void FormatCoinPrice(List<CryptoCoin> coins)
+        {
+            foreach (var coin in coins)
+            {
+                if (Decimal.TryParse(coin.PriceUsd, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal coinPriceDecimal))
+                {
+                    coin.PriceUsd = coinPriceDecimal.ToString("0.0000$");
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to parse coin price for coin: {coin.Name}");
+                }
+            }
         }
     }
 }

@@ -10,14 +10,17 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBox x:Name="SearchBox" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" Width="200" />
+            <Button Command="{Binding SearchCommand}" Content="Search" Margin="10,0,0,0" />
+
             <TextBox Text="{Binding NumberOfCoins, UpdateSourceTrigger=PropertyChanged}" Width="50" />
             <Button Command="{Binding UpdateCommand}" Content="Update" Margin="10,0,0,0" />
         </StackPanel>
         <ScrollViewer Grid.Row="1"
                       CanContentScroll="True"
                       VerticalScrollBarVisibility="Auto">
-            <ListBox ItemsSource="{Binding Coins}"
-            SelectionChanged="CoinListBox_SelectionChanged">
+            <ListBox ItemsSource="{Binding DisplayedCoins}" 
+                     SelectionChanged="CoinListBox_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
