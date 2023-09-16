@@ -11,5 +11,6 @@ namespace WpfApp.ServicesInterfaces
     {
         void FormatCoinPrice(List<CryptoCoin> coins);
         Task<List<CryptoCoin>> GetTopCoinsAsync(int count);
+        Task<MarketData> GetMarketDataAsync(string coinId);
     }
 }

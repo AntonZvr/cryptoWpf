@@ -62,7 +62,7 @@ namespace WpfApp.ViewModels
             _cryptoService = cryptoService;
 
             UpdateCommand = new RelayCommand(_ => LoadDataAsync());
-            NavigateToDetailCommand = new RelayCommand(async coin => NavigateToDetail((CryptoCoin)coin));
+            NavigateToDetailCommand = new RelayCommand(coin => { NavigateToDetail((CryptoCoin)coin); return Task.CompletedTask; });
             SearchCommand = new RelayCommand(_ => Search());
         }
 
@@ -97,7 +97,7 @@ namespace WpfApp.ViewModels
         public void NavigateToDetail(CryptoCoin coin)
         {
             var mainWindow = (MainWindow)Application.Current.MainWindow;
-            var detailPage = new DetailsPage(coin);
+            var detailPage = new DetailsPage(coin, _cryptoService);
             mainWindow.MainFrame.NavigationService.Navigate(detailPage);
         }
 

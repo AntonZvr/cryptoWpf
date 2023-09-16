@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp.Models;
+using WpfApp.ServicesInterfaces;
 using WpfApp.ViewModels;
 
 namespace WpfApp
@@ -24,10 +25,10 @@ namespace WpfApp
     {
         public CryptoDetailViewModel viewModel { get; }
 
-        public DetailsPage(CryptoCoin coin)
+        public DetailsPage(CryptoCoin coin, ICryptoApiService cryptoApiService)
         {
             InitializeComponent();
-            viewModel = new CryptoDetailViewModel { Coin = coin };
+            viewModel = new CryptoDetailViewModel(cryptoApiService) { Coin = coin };
             DataContext = viewModel;
         }
 

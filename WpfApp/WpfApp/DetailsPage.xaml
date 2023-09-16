@@ -3,11 +3,29 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="Crypto Detail">
     <Grid>
-        <StackPanel>
-            <TextBlock Text="{Binding Coin.Name, StringFormat='Coin Name: {0}'}" FontSize="24" FontWeight="Bold" />
-            <TextBlock Text="{Binding Coin.PriceUsd, StringFormat='Price: {0} USD'}" FontSize="18" />
-            <TextBlock Text="{Binding Coin.VolumeUsd24Hr, StringFormat='Volume: {0}'}" FontSize="16" />
-            <TextBlock Text="{Binding Coin.ChangePercent24Hr, StringFormat='Change(24 h): {0}%'}" FontSize="16" />
-        </StackPanel>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock Text="{Binding Coin.Name, StringFormat='Coin Name: {0}  '}" FontSize="24" FontWeight="Bold" />
+                <TextBlock Text="{Binding Coin.PriceUsd, StringFormat='Price: {0}  '}" FontSize="24" FontWeight="Bold" />
+                <ItemsControl ItemsSource="{Binding Coin.MarketData}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding ExchangeId, StringFormat='Market Name: {0}  '}" FontSize="17" />
+                                <TextBlock Text="{Binding BaseSymbol, StringFormat='Base Symbol: {0}  '}" FontSize="17" />
+                                <TextBlock Text="{Binding QuoteSymbol, StringFormat='Quote Symbol: {0}  '}" FontSize="17" />
+                                <TextBlock Text="{Binding PriceUsd, StringFormat='Price(USD): {0}  '}" FontSize="17" />
+                                <Separator Opacity="0" Height="30" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

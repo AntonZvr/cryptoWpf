@@ -47,5 +47,17 @@ namespace WpfApp.Services
                 }
             }
         }
+
+        public async Task<MarketData> GetMarketDataAsync(string coinId)
+        {
+            var response = await _httpClient.GetAsync($"assets/{coinId}/markets");
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<MarketData>(result);
+                return data;
+            }
+            return null;
+        }
     }
 }
