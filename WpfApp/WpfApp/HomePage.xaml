@@ -16,7 +16,8 @@
         <ScrollViewer Grid.Row="1"
                       CanContentScroll="True"
                       VerticalScrollBarVisibility="Auto">
-            <ListBox ItemsSource="{Binding Coins}">
+            <ListBox ItemsSource="{Binding Coins}"
+            SelectionChanged="CoinListBox_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">

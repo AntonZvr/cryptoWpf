@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp.Models;
 using WpfApp.Services;
 using WpfApp.ViewModels;
 
@@ -34,6 +35,15 @@ namespace WpfApp
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             await _viewModel.LoadDataAsync();
+        }
+
+        public void CoinListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                var selectedCoin = e.AddedItems[0] as CryptoCoin;
+                _viewModel.NavigateToDetail(selectedCoin);
+            }
         }
     }
 }

@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp.Models;
+using WpfApp.ViewModels;
 
 namespace WpfApp
 {
@@ -20,9 +22,17 @@ namespace WpfApp
     /// </summary>
     public partial class DetailsPage : Page
     {
-        public DetailsPage()
+        public CryptoDetailViewModel viewModel { get; }
+
+        public DetailsPage(CryptoCoin coin)
         {
             InitializeComponent();
+            viewModel = new CryptoDetailViewModel { Coin = coin };
+            DataContext = viewModel;
+        }
+
+        public DetailsPage()
+        {
         }
     }
 }

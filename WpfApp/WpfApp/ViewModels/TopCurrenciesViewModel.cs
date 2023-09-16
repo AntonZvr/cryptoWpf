@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Navigation;
 using WpfApp.Models;
 using WpfApp.ServicesInterfaces;
 
@@ -31,15 +32,26 @@ namespace WpfApp.ViewModels
         }
 
         public ICommand UpdateCommand { get; }
+        public ICommand NavigateToDetailCommand { get; }
 
         public TopCurrenciesViewModel(ICryptoApiService cryptoService)
         {
             _cryptoService = cryptoService;
+
             UpdateCommand = new RelayCommand(_ => LoadDataAsync());
+            NavigateToDetailCommand = new RelayCommand(async coin => await NavigateToDetail((CryptoCoin)coin));
         }
 
-        public async Task LoadDataAsync()
+        public async Task NavigateToDetail(CryptoCoin coin)
         {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            var detailPage = new DetailsPage(coin);
+            mainWindow.MainFrame.NavigationService.Navigate(detailPage);
+        }
+
+
+        public async Task LoadDataAsync()
+            {
             if (NumberOfCoins > 100)
             {
                 MessageBox.Show("Can't display more than 100 currencies");
@@ -61,7 +73,6 @@ namespace WpfApp.ViewModels
             Coins = new ObservableCollection<CryptoCoin>(coins);
             Console.WriteLine(Coins.Count);
         }
-
 
         public ObservableCollection<CryptoCoin> Coins
         {
