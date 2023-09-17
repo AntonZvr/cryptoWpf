@@ -37,5 +37,10 @@ namespace WpfApp
             DataContext = viewModel;
         }
 
+        private void amountText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            viewModel.ConvertAmount();
+        }
+
     }
 }

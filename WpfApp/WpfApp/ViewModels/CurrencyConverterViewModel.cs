@@ -100,7 +100,7 @@ namespace WpfApp.ViewModels
             Rates = await _cryptoService.GetCurrencyRatesAsync();
         }
 
-        private void ConvertAmount()
+        public void ConvertAmount()
         {
             var sourceRate = SourceCurrency != null
                              ? Rates.FirstOrDefault(rate => rate.Id == SourceCurrency.Id)?.RateUsd ?? 0
@@ -112,10 +112,9 @@ namespace WpfApp.ViewModels
             if (decimal.TryParse(Amount, out var amount))
             {
                 var result = amount == 0 || sourceRate == 0 ? 0 : (amount / sourceRate) * targetRate;
-                Result = $"{amount} {TargetCurrency?.Id ?? "NULL"} = {Math.Round(result, 2)} {SourceCurrency?.Id ?? "NULL"}";
+                Result = $"{amount} {TargetCurrency?.Id ?? "Choose source currency"} = {Math.Round(result, 2)} {SourceCurrency?.Id ?? "Choose target currency"}";
             }
         }
-
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
