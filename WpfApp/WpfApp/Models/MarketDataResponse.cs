@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WpfApp.Models
 {
-    public class MarketData
+    public class MarketDataResponse
     {
         public List<Market> Data { get; set; }
         public long Timestamp { get; set; }

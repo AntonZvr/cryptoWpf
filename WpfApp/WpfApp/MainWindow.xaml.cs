@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp.Services;
+using WpfApp.ServicesInterfaces;
 
 namespace WpfApp
 {
@@ -20,10 +22,17 @@ namespace WpfApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ICryptoApiService _cryptoApiService;
         public Frame MainFrame => Main;
         public MainWindow()
         {
             InitializeComponent();
+            _cryptoApiService = new CryptoApiService();
+        }
+
+        private ConverterPage CreateConverterPage()
+        {
+            return new ConverterPage(_cryptoApiService);
         }
 
         private void ButtonClick2(object sender, RoutedEventArgs e)
@@ -34,6 +43,11 @@ namespace WpfApp
         private void ButtonClick1(object sender, RoutedEventArgs e)
         {
             Main.Content = new HomePage();
+        }
+
+        private void ButtonClick3(object sender, RoutedEventArgs e)
+        {
+            Main.Content = CreateConverterPage();
         }
     }
 }

@@ -48,14 +48,26 @@ namespace WpfApp.Services
             }
         }
 
-        public async Task<MarketData> GetMarketDataAsync(string coinId)
+        public async Task<MarketDataResponse> GetMarketDataAsync(string coinId)
         {
             var response = await _httpClient.GetAsync($"assets/{coinId}/markets");
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<MarketData>(result);
+                var data = JsonConvert.DeserializeObject<MarketDataResponse>(result);
                 return data;
+            }
+            return null;
+        }
+
+        public async Task<List<CurrencyRate>> GetCurrencyRatesAsync()
+        {
+            var response = await _httpClient.GetAsync($"rates");
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<CurrencyRateResponse>(result);
+                return data.Data;
             }
             return null;
         }

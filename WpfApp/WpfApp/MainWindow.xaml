@@ -8,8 +8,8 @@
         Title="TabBarView" Height="650" Width="800">
     <Grid>
         <StackPanel Orientation="Horizontal" Height="35" VerticalAlignment="Top">
-            <Button Content="Main Page" Click="ButtonClick1"></Button>
-
+            <Button Content="Main Page" Click="ButtonClick1" Width="95"></Button>
+            <Button Content="Converter Page" Click="ButtonClick3" Width="95"></Button>
         </StackPanel>
         <Frame x:Name="Main" Margin="0,35,0,0" NavigationUIVisibility="Automatic"/>
     </Grid>
