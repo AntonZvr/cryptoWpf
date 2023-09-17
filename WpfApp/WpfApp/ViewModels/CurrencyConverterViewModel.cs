@@ -111,11 +111,10 @@ namespace WpfApp.ViewModels
 
             if (decimal.TryParse(Amount, out var amount))
             {
-                var result = amount == 0 ? 0 : (amount / sourceRate) * targetRate;
-                Result = $"{amount} {SourceCurrency?.ToString() ?? "NULL"} = {result} {TargetCurrency?.ToString() ?? "NULL"}";
+                var result = amount == 0 || sourceRate == 0 ? 0 : (amount / sourceRate) * targetRate;
+                Result = $"{amount} {TargetCurrency?.Id ?? "NULL"} = {Math.Round(result, 2)} {SourceCurrency?.Id ?? "NULL"}";
             }
         }
-
 
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

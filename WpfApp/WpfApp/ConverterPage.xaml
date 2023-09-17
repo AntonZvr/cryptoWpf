@@ -16,10 +16,11 @@
         <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
 
-    <ComboBox x:Name="sourceCurrencyCombo" Grid.Row="0" ItemsSource="{Binding Rates}" SelectedItem="{Binding SourceCurrency}" />
-    <ComboBox x:Name="targetCurrencyCombo" Grid.Row="1" ItemsSource="{Binding Rates}" SelectedItem="{Binding TargetCurrency}" />
-    <TextBox x:Name="amountText" Grid.Row="2" Text="{Binding Amount}" />
-    <TextBlock x:Name="resultText" Grid.Row="3" Text="{Binding Result}" />
+        <ComboBox x:Name="sourceCurrencyCombo" Grid.Row="0" ItemsSource="{Binding Rates}" SelectedItem="{Binding TargetCurrency}" DisplayMemberPath="Id" />
+        <ComboBox x:Name="targetCurrencyCombo" Grid.Row="1" ItemsSource="{Binding Rates}" SelectedItem="{Binding SourceCurrency}" DisplayMemberPath="Id" />
+
+        <TextBox x:Name="amountText" Grid.Row="2" Text="{Binding Amount}" />
+        <TextBlock x:Name="resultText" Grid.Row="3" Text="{Binding Result}" />
 </Grid>
 
 </Page>
