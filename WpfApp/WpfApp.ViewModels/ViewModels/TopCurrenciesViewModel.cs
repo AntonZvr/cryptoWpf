@@ -57,9 +57,10 @@ namespace WpfApp.ViewModels
         public ICommand NavigateToDetailCommand { get; }
         public ICommand SearchCommand { get; }
 
-        public TopCurrenciesViewModel(ICryptoApiService cryptoService)
+        public TopCurrenciesViewModel(ICryptoApiService cryptoService, Action<object> navigateAction)
         {
             _cryptoService = cryptoService;
+            NavigateAction = navigateAction;
 
             UpdateCommand = new RelayCommand(_ => LoadDataAsync());
             NavigateToDetailCommand = new RelayCommand(coin => { NavigateToDetail((CryptoCoin)coin); return Task.CompletedTask; });
@@ -94,11 +95,10 @@ namespace WpfApp.ViewModels
             DisplayedCoins = new ObservableCollection<CryptoCoin>(_allCoins);
         }
 
+        public Action<object> NavigateAction { get; set; }
         public void NavigateToDetail(CryptoCoin coin)
         {
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            var detailPage = new DetailsPage(coin, _cryptoService);
-            mainWindow.MainFrame.NavigationService.Navigate(detailPage);
+            NavigateAction?.Invoke(coin);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

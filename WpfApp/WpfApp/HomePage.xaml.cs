@@ -28,7 +28,11 @@ namespace WpfApp
         public HomePage()
         {
             InitializeComponent();
-            _viewModel = new TopCurrenciesViewModel(new CryptoApiService());
+            _viewModel = new TopCurrenciesViewModel(new CryptoApiService(), coin =>
+            {
+                var detailPage = new DetailsPage((CryptoCoin)coin, new CryptoApiService());
+                this.NavigationService.Navigate(detailPage);
+            });
             DataContext = _viewModel;
         }
 

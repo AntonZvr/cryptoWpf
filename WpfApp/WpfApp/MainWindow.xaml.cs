@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp.Services;
 using WpfApp.ServicesInterfaces;
+using WpfApp.ViewModels;
 
 namespace WpfApp
 {
@@ -26,6 +27,13 @@ namespace WpfApp
         public Frame MainFrame => Main;
         public MainWindow()
         {
+            var topCurrenciesViewModel = new TopCurrenciesViewModel(
+            new CryptoApiService(),
+            coin =>
+            {
+                var detailPage = new DetailsPage((Models.CryptoCoin)coin, new CryptoApiService());
+                Main.Navigate(detailPage);
+            });
             InitializeComponent();
             _cryptoApiService = new CryptoApiService();
         }
@@ -33,11 +41,6 @@ namespace WpfApp
         private ConverterPage CreateConverterPage()
         {
             return new ConverterPage(_cryptoApiService);
-        }
-
-        private void ButtonClick2(object sender, RoutedEventArgs e)
-        {
-            Main.Content = new DetailsPage();
         }
 
         private void ButtonClick1(object sender, RoutedEventArgs e)
